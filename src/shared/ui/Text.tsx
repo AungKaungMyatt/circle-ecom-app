@@ -12,7 +12,7 @@ export function H1(props: TextProps) {
         props.style,
       ]}
     />
-  );
+  );  
 }
 export function H2(props: TextProps) {
   const t = useTheme();
