@@ -1,6 +1,7 @@
 import { Appearance, ColorSchemeName } from "react-native";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
+import mmkvStorage from "./mmkvStorage";
 import { lightTheme, darkTheme, type Theme } from "../../app/theme";
 
 function getSmartStorage() {
@@ -75,6 +76,7 @@ export const useThemeStore = create<ThemeState>()(
     }),
     {
       name: "theme-store",
+      // () => mmkvStorage
       storage: createJSONStorage(getSmartStorage),
       // only persist what matters (mode). systemScheme comes from Appearance.
       partialize: (state) => ({ mode: state.mode }),

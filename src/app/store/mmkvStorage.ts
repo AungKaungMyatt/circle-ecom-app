@@ -1,8 +1,8 @@
-import { MMKV, Mode } from "react-native-mmkv";
+import { MMKV } from "react-native-mmkv";
 import type { StateStorage } from "zustand/middleware";
 
 // Create a single MMKV instance for the app
-export const mmkv = new MMKV({ id: "APP_STORE", mode: Mode.MULTI_PROCESS });
+export const mmkv = new MMKV({ id: "APP_STORE" });
 
 const mmkvStorage: StateStorage = {
   setItem: (name, value) => mmkv.set(name, value),
