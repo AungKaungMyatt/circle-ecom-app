@@ -26,4 +26,16 @@ export const lightTheme: Theme = {
   spacing: (n) => n * 8,
 };
 
-// later: export const darkTheme: Theme = { ...lightTheme, colors: { ... } }
+export const darkTheme: Theme = {
+  colors: {
+    bg: "#0F0F10",
+    card: "#1A1B1E",
+    text: "#FFFFFF",
+    sub: "#B9BBC6",
+    primary: "#FFFFFF",
+    primaryText: "#0F0F10",
+    muted: "#3A3B40",
+  },
+  radius: { xl: 24, full: 999 },
+  spacing: (n) => n * 8,
+};

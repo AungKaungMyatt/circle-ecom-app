@@ -18,6 +18,7 @@ import { useTheme } from "../../app/providers/ThemeProvider";
 import Button from "../../shared/ui/Button";
 import { H1, H2, P } from "../../shared/ui/Text";
 import DotPager from "../components/DotPager";
+import ThemeToggle from "../components/ThemeToggle";
 
 const { width, height } = Dimensions.get("window");
 const BUTTON_HEIGHT = 56;
@@ -210,6 +211,7 @@ export default function OnboardingScreen() {
             bottom: Math.max(16, insets.bottom + 12),
           }}
         >
+          <ThemeToggle />
           <Button
             title={slides[index].last ? "Get Started" : "Next"}
             onPress={goNext}

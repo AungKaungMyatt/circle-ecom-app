@@ -1,11 +1,28 @@
-import React, { createContext, useContext, PropsWithChildren } from "react";
-import { lightTheme, Theme } from "../theme";
+import React, {
+  createContext,
+  useContext,
+  PropsWithChildren,
+  useSyncExternalStore,
+} from "react";
+import type { Theme } from "../theme";
+import { useThemeStore } from "../store/useThemeStore";
 
-const ThemeCtx = createContext<Theme>(lightTheme);
+const ThemeCtx = createContext<Theme | null>(null);
 
-export const useTheme = () => useContext(ThemeCtx);
+export const useTheme = () => {
+  const ctx = useContext(ThemeCtx);
+  if (!ctx) throw new Error("useTheme must be used within ThemeProvider");
+  return ctx;
+};
 
-// For now always light; later you can pick by useColorScheme()
 export function ThemeProvider({ children }: PropsWithChildren) {
-  return <ThemeCtx.Provider value={lightTheme}>{children}</ThemeCtx.Provider>;
+  // subscribe to Zustand with minimal re-renders
+  const subscribe = useThemeStore.subscribe;
+  const theme = useSyncExternalStore(
+    (cb) => subscribe(cb),
+    () => useThemeStore.getState().getTheme(),
+    () => useThemeStore.getState().getTheme()
+  );
+
+  return <ThemeCtx.Provider value={theme}>{children}</ThemeCtx.Provider>;
 }
