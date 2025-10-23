@@ -3,6 +3,7 @@
     "name": "ecom-app",
     "slug": "ecom-app",
     "version": "1.0.0",
+    "scheme": "moon",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -12,17 +13,24 @@
       [
         "expo-build-properties",
         {
-          "android": { "newArchEnabled": true },
-          "ios": { "newArchEnabled": true }
+          "android": {
+            "newArchEnabled": true
+          },
+          "ios": {
+            "newArchEnabled": true
+          }
         }
-      ]
+      ],
+      "expo-router"
     ],
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "ios": { "supportsTablet": true },
+    "ios": {
+      "supportsTablet": true
+    },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
@@ -32,9 +40,13 @@
       "predictiveBackGestureEnabled": false,
       "package": "com.anonymous.ecomapp"
     },
-    "web": { "favicon": "./assets/favicon.png" },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
     "extra": {
-      "eas": { "projectId": "fa1f5ea7-b6d2-4d2f-8c9d-46cf7f678c63" }
+      "eas": {
+        "projectId": "fa1f5ea7-b6d2-4d2f-8c9d-46cf7f678c63"
+      }
     }
   }
 }
