@@ -1,6 +1,6 @@
 import React from "react";
 import { Text as RNText, TextProps } from "react-native";
-import { useTheme } from "../../app/providers/ThemeProvider";
+import { useTheme } from "../../core/providers/ThemeProvider";
 
 export function H1(props: TextProps) {
   const t = useTheme();
@@ -12,7 +12,7 @@ export function H1(props: TextProps) {
         props.style,
       ]}
     />
-  );  
+  );
 }
 export function H2(props: TextProps) {
   const t = useTheme();
@@ -31,7 +31,7 @@ export function P(props: TextProps) {
   return (
     <RNText
       {...props}
-      style={[{ fontSize: 14, color: t.colors.sub }, props.style]}
+      style={[{ fontSize: 14, color: t.colors.textSecondary }, props.style]}
     />
   );
 }

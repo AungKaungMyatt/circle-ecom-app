@@ -1,6 +1,6 @@
 import React from "react";
 import { TouchableOpacity, Text, StyleSheet, ViewStyle } from "react-native";
-import { useTheme } from "../../app/providers/ThemeProvider";
+import { useTheme } from "../../core/providers/ThemeProvider";
 
 export default function Button({
   title,
@@ -21,7 +21,7 @@ export default function Button({
         style,
       ]}
     >
-      <Text style={[styles.txt, { color: t.colors.primaryText }]}>{title}</Text>
+      <Text style={[styles.txt, { color: t.colors.onPrimary }]}>{title}</Text>
     </TouchableOpacity>
   );
 }
