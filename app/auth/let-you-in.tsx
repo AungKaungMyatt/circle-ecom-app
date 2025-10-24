@@ -1,2 +1,3 @@
-import LetyouinScreen from "../../src/features/auth/screens/LetyouinScreen";
-export default LetyouinScreen;
+import LetyouinContainer from "../../src/features/auth/screens/LetyouinContainer";
+
+export default LetyouinContainer;
