@@ -1,19 +1,13 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import {
-  View,
-  Text,
-  Image,
-  Pressable,
-  StyleSheet,
-  GestureResponderEvent,
-} from "react-native";
-import { useTheme } from "../../../core/providers/ThemeProvider";
+import { View, Text, Image, Pressable, StyleSheet } from "react-native";
 import { ArrowBigLeft } from "lucide-react-native";
 import { FontAwesome } from "@expo/vector-icons";
+import { useTheme } from "../../../core/providers/ThemeProvider";
+import { Divider, SocialButton } from "src/shared/components";
 
-type Props = {
-  onBack?: (e: GestureResponderEvent) => void;
+export type LetyouinProps = {
+  onBack?: () => void;
   onFacebook?: () => void;
   onGoogle?: () => void;
   onApple?: () => void;
@@ -28,17 +22,49 @@ export default function LetyouinScreen({
   onApple,
   onPassword,
   onSignup,
-}: Props) {
+}: LetyouinProps) {
   const t = useTheme();
 
+  // centralize mapping so there’s no repeated JSX
+  const socials = useMemo(
+    () => [
+      {
+        key: "facebook",
+        label: "Continue with Facebook",
+        icon: <FontAwesome name="facebook" size={20} color="#1877F2" />,
+        onPress: onFacebook,
+        testID: "btn-facebook",
+      },
+      {
+        key: "google",
+        label: "Continue with Google",
+        icon: <FontAwesome name="google" size={20} color="#DB4437" />,
+        onPress: onGoogle,
+        testID: "btn-google",
+      },
+      {
+        key: "apple",
+        label: "Continue with Apple",
+        icon: <FontAwesome name="apple" size={20} color={t.colors.text} />,
+        onPress: onApple,
+        testID: "btn-apple",
+      },
+    ],
+    [onFacebook, onGoogle, onApple, t.colors.text]
+  );
+
   return (
-    <SafeAreaView
-      style={[styles.flex, { backgroundColor: t.colors.bg }]}
-      edges={["top"]}
-    >
+    <SafeAreaView style={[styles.flex, { backgroundColor: t.colors.bg }]} edges={["top"]}>
       {/* Header */}
       <View style={styles.header}>
-        <Pressable onPress={() => {}}>
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel="Go back"
+          hitSlop={8}
+          onPress={onBack}
+          style={({ pressed }) => [{ opacity: pressed ? 0.6 : 1 }]}
+          testID="btn-back"
+        >
           <ArrowBigLeft size={22} color={t.colors.text} strokeWidth={2} />
         </Pressable>
       </View>
@@ -53,41 +79,41 @@ export default function LetyouinScreen({
       </View>
 
       {/* Title */}
-      <Text style={[styles.title, { color: t.colors.text }]}>Let’s you in</Text>
+      <Text
+        style={[
+          styles.title,
+          { color: t.colors.text },
+          // if you have typography tokens, uncomment:
+          // t.typography.displayMd.weightExtraBold,
+        ]}
+      >
+        Let’s you in
+      </Text>
 
       {/* Social buttons */}
       <View style={styles.stack16}>
-        <SocialButton
-          label="Continue with Facebook"
-          icon={<FontAwesome name="facebook" size={20} color="#1877F2" />}
-          onPress={onFacebook}
-          themeCard={t.colors.card}
-          themeText={t.colors.text}
-          themeBorder={t.colors.textSecondary}
-        />
-        <SocialButton
-          label="Continue with Google"
-          icon={<FontAwesome name="google" size={20} color="#DB4437" />}
-          onPress={onGoogle}
-          themeCard={t.colors.card}
-          themeText={t.colors.text}
-          themeBorder={t.colors.textSecondary}
-        />
-        <SocialButton
-          label="Continue with Apple"
-          icon={<FontAwesome name="apple" size={20} color={t.colors.text} />}
-          onPress={onApple}
-          themeCard={t.colors.card}
-          themeText={t.colors.text}
-          themeBorder={t.colors.textSecondary}
-        />
+        {socials.map(({ key, label, icon, onPress, testID }) => (
+          <SocialButton
+            key={key}
+            label={label}
+            icon={icon}
+            onPress={onPress}
+            testID={testID}
+            bg={t.colors.card}
+            border={t.colors.textSecondary}
+            text={t.colors.text}
+          />
+        ))}
       </View>
 
       {/* OR divider */}
-      <Divider label="or" lineColor={t.colors.textSecondary} textColor={t.colors.textSecondary} />
+      <Divider label="or" color={t.colors.textSecondary} />
 
-      {/* Password button */}
+      {/* Password CTA */}
       <Pressable
+        testID="btn-password"
+        accessibilityRole="button"
+        accessibilityLabel="Sign in with password"
         onPress={onPassword}
         style={[
           styles.cta,
@@ -95,9 +121,7 @@ export default function LetyouinScreen({
           styles.shadow,
         ]}
       >
-        <Text
-          style={[styles.ctaText, { color: t.dark ? t.colors.bg : "#fff" }]}
-        >
+        <Text style={[styles.ctaText, { color: t.dark ? t.colors.bg : "#fff" }]}>
           Sign in with password
         </Text>
       </Pressable>
@@ -107,69 +131,11 @@ export default function LetyouinScreen({
         <Text style={[styles.footerText, { color: t.colors.textSecondary }]}>
           Don’t have an account?{" "}
         </Text>
-        <Pressable onPress={onSignup}>
-          <Text style={[styles.footerLink, { color: t.colors.text }]}>
-            Sign up
-          </Text>
+        <Pressable testID="btn-signup" onPress={onSignup} hitSlop={6}>
+          <Text style={[styles.footerLink, { color: t.colors.text }]}>Sign up</Text>
         </Pressable>
       </View>
     </SafeAreaView>
-  );
-}
-
-function SocialButton({
-  label,
-  icon,
-  onPress,
-  themeCard,
-  themeText,
-  themeBorder,
-}: {
-  label: string;
-  icon: React.ReactNode;
-  onPress?: () => void;
-  themeCard: string;
-  themeText: string;
-  themeBorder: string;
-}) {
-  return (
-    <Pressable
-      onPress={onPress}
-      style={({ pressed }) => [
-        styles.socialBtn,
-        {
-          backgroundColor: themeCard,
-          borderColor: themeBorder + "40",
-          opacity: pressed ? 0.85 : 1,
-        },
-      ]}
-    >
-      <View style={styles.socialLeft}>{icon}</View>
-      <Text style={[styles.socialLabel, { color: themeText }]}>{label}</Text>
-      <View style={styles.socialRight} />
-    </Pressable>
-  );
-}
-
-function Divider({
-  label,
-  lineColor,
-  textColor,
-}: {
-  label: string;
-  lineColor: string;
-  textColor: string;
-}) {
-  return (
-    <View style={styles.dividerRow}>
-      <View
-        style={[styles.dividerLine, { backgroundColor: lineColor + "55" }]}
-      />
-      <Text style={[styles.dividerText, { color: textColor }]}>{label}</Text>
-      <View
-        style={[styles.dividerLine, { backgroundColor: lineColor + "55" }]}
-      />
-    </View>
   );
 }
 
@@ -178,38 +144,8 @@ const styles = StyleSheet.create({
   header: { paddingHorizontal: 20, paddingTop: 8, paddingBottom: 4 },
   illustrationWrap: { alignItems: "center", marginTop: 8 },
   illustration: { width: 220, height: 220 },
-  title: {
-    fontSize: 32,
-    fontWeight: "800",
-    textAlign: "center",
-    marginTop: 12,
-  },
+  title: { fontSize: 32, fontWeight: "800", textAlign: "center", marginTop: 12 },
   stack16: { gap: 16, paddingHorizontal: 20, marginTop: 16 },
-  socialBtn: {
-    height: 56,
-    borderRadius: 16,
-    borderWidth: StyleSheet.hairlineWidth,
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: 16,
-  },
-  socialLeft: { width: 28, alignItems: "center", justifyContent: "center" },
-  socialRight: { width: 28 }, // balances left icon for centered text
-  socialLabel: {
-    flex: 1,
-    textAlign: "center",
-    fontSize: 16,
-    fontWeight: "600",
-  },
-  dividerRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 10,
-    paddingHorizontal: 20,
-    marginVertical: 24,
-  },
-  dividerLine: { height: StyleSheet.hairlineWidth, flex: 1, borderRadius: 1 },
-  dividerText: { fontSize: 14, fontWeight: "600", textTransform: "lowercase" },
   cta: {
     marginHorizontal: 20,
     height: 56,
@@ -226,11 +162,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   footerText: { fontSize: 13 },
-  footerLink: {
-    fontSize: 13,
-    fontWeight: "700",
-    textDecorationLine: "underline",
-  },
+  footerLink: { fontSize: 13, fontWeight: "700", textDecorationLine: "underline" },
   shadow: {
     shadowColor: "#000",
     shadowOpacity: 0.2,
