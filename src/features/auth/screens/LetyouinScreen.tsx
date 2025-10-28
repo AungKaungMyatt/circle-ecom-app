@@ -3,6 +3,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { View, Text, Image, Pressable, StyleSheet } from "react-native";
 import { ArrowBigLeft } from "lucide-react-native";
 import { FontAwesome } from "@expo/vector-icons";
+import { GoogleIcon } from "../../../assets/icons/index";
 import { useTheme } from "../../../core/providers/ThemeProvider";
 import { Divider, SocialButton } from "src/shared/components";
 
@@ -38,7 +39,7 @@ export default function LetyouinScreen({
       {
         key: "google",
         label: "Continue with Google",
-        icon: <FontAwesome name="google" size={20} color="#DB4437" />,
+        icon: <GoogleIcon width={20} height={20} />,
         onPress: onGoogle,
         testID: "btn-google",
       },
@@ -54,7 +55,10 @@ export default function LetyouinScreen({
   );
 
   return (
-    <SafeAreaView style={[styles.flex, { backgroundColor: t.colors.bg }]} edges={["top"]}>
+    <SafeAreaView
+      style={[styles.flex, { backgroundColor: t.colors.bg }]}
+      edges={["top"]}
+    >
       {/* Header */}
       <View style={styles.header}>
         <Pressable
@@ -121,7 +125,9 @@ export default function LetyouinScreen({
           styles.shadow,
         ]}
       >
-        <Text style={[styles.ctaText, { color: t.dark ? t.colors.bg : "#fff" }]}>
+        <Text
+          style={[styles.ctaText, { color: t.dark ? t.colors.bg : "#fff" }]}
+        >
           Sign in with password
         </Text>
       </Pressable>
@@ -132,7 +138,9 @@ export default function LetyouinScreen({
           Don’t have an account?{" "}
         </Text>
         <Pressable testID="btn-signup" onPress={onSignup} hitSlop={6}>
-          <Text style={[styles.footerLink, { color: t.colors.text }]}>Sign up</Text>
+          <Text style={[styles.footerLink, { color: t.colors.text }]}>
+            Sign up
+          </Text>
         </Pressable>
       </View>
     </SafeAreaView>
@@ -144,7 +152,12 @@ const styles = StyleSheet.create({
   header: { paddingHorizontal: 20, paddingTop: 8, paddingBottom: 4 },
   illustrationWrap: { alignItems: "center", marginTop: 8 },
   illustration: { width: 220, height: 220 },
-  title: { fontSize: 32, fontWeight: "800", textAlign: "center", marginTop: 12 },
+  title: {
+    fontSize: 32,
+    fontWeight: "800",
+    textAlign: "center",
+    marginTop: 12,
+  },
   stack16: { gap: 16, paddingHorizontal: 20, marginTop: 16 },
   cta: {
     marginHorizontal: 20,
@@ -162,7 +175,11 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   footerText: { fontSize: 13 },
-  footerLink: { fontSize: 13, fontWeight: "700", textDecorationLine: "underline" },
+  footerLink: {
+    fontSize: 13,
+    fontWeight: "700",
+    textDecorationLine: "underline",
+  },
   shadow: {
     shadowColor: "#000",
     shadowOpacity: 0.2,
