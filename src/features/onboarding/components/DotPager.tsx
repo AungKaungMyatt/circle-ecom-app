@@ -1,6 +1,6 @@
 import React from "react";
 import { View } from "react-native";
-import { useTheme } from "../../core/providers/ThemeProvider";
+import { useTheme } from "@core/providers/ThemeProvider";
 export default function DotPager({ total, index }: { total: number; index: number; }) {
   const t = useTheme();
   return (

@@ -1,6 +1,6 @@
 import React from "react";
 import { Pressable, ViewStyle, GestureResponderEvent } from "react-native";
-import { useTheme } from "../../core/providers/ThemeProvider";
+import { useTheme } from "@core/providers/ThemeProvider";
 
 type Props = {
   icon: React.ReactNode;

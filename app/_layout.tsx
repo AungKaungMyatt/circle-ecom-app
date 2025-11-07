@@ -1,5 +1,5 @@
 import { Stack } from "expo-router";
-import { ThemeProvider } from "../src/core/providers/ThemeProvider";
+import { ThemeProvider } from "@core/providers/ThemeProvider";
 
 export default function RootLayout() {
   return (

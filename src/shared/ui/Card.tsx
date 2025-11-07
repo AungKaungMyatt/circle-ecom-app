@@ -1,6 +1,6 @@
 import React, { PropsWithChildren } from "react";
 import { View, StyleSheet, ViewStyle } from "react-native";
-import { useTheme } from "../../core/providers/ThemeProvider";
+import { useTheme } from "@core/providers/ThemeProvider";
 export default function Card({
   children,
   style,

@@ -2,12 +2,12 @@ import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import { ArrowBigLeft } from "lucide-react-native";
-import { useTheme } from "../../../core/providers/ThemeProvider";
-import FormTextInput from "../../../shared/components/FormTextInput";
-import Divider from "../../../shared/components/Divider";
-import IconButton from "../../../shared/components/IconButton";
+import { useTheme } from "@core/providers/ThemeProvider";
+import FormTextInput from "@shared/components/FormTextInput";
+import Divider from "@shared/components/Divider";
+import IconButton from "@shared/components/IconButton";
 import { FontAwesome } from "@expo/vector-icons";
-import GoogleIcon from "../../../assets/icons/google.svg";
+import GoogleIcon from "@assets/icons/google.svg";
 
 export type SignInScreenProps = {
   onBack?: () => void;

@@ -1,6 +1,6 @@
 import React from "react";
 import type { LucideIcon } from "lucide-react-native";
-import { useTheme } from "../../core/providers/ThemeProvider";
+import { useTheme } from "@core/providers/ThemeProvider";
 
 type Props = {
   icon: LucideIcon;
@@ -9,7 +9,7 @@ type Props = {
   strokeWidth?: number;
 };
 
-export const ThemedIcon = ({ icon: Icon, size, color, strokeWidth }: Props) => {
+const ThemedIcon = ({ icon: Icon, size, color, strokeWidth }: Props) => {
   const t = useTheme();
   return (
     <Icon
@@ -19,3 +19,5 @@ export const ThemedIcon = ({ icon: Icon, size, color, strokeWidth }: Props) => {
     />
   );
 };
+
+export default ThemedIcon;

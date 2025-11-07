@@ -1,6 +1,6 @@
 import React from "react";
 import { Text as RNText, TextProps } from "react-native";
-import { useTheme } from "../../core/providers/ThemeProvider";
+import { useTheme } from "@core/providers/ThemeProvider";
 
 export function H1(props: TextProps) {
   const t = useTheme();

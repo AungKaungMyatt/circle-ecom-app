@@ -2,12 +2,10 @@ import React, { useCallback } from "react";
 import { Alert } from "react-native";
 import { useRouter } from "expo-router";
 import LetyouinScreen from "../../auth/screens/LetyouinScreen";
-import * as AuthService from "../services/AuthService"; // your abstraction; stub if needed
+import * as AuthService from "../services/AuthService";
 
-// choose where to land post-login:
-// const AFTER_LOGIN_PATH = "/shop"; // if you want the shop
 const AFTER_LOGIN_PATH = ""; // root index.tsx
-const BACK_FALLBACK_PATH = "/"; // where to go if there's no history
+const BACK_FALLBACK_PATH = "/onboarding"; // where to go if there's no history
 
 export default function LetyouinContainer() {
   const router = useRouter();
@@ -21,7 +19,7 @@ export default function LetyouinContainer() {
     async (provider: "facebook" | "google" | "apple") => {
       try {
         await AuthService.signInWithProvider(provider);
-        router.replace(AFTER_LOGIN_PATH); // success → main app
+        router.replace(AFTER_LOGIN_PATH); 
       } catch (e: any) {
         Alert.alert("Sign-in failed", e?.message ?? "Please try again.");
       }

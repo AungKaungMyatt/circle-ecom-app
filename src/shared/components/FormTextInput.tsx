@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, TextInput, Pressable, StyleSheet, TextInputProps } from "react-native";
 import { Eye, EyeOff } from "lucide-react-native";
-import { useTheme } from "../../core/providers/ThemeProvider";
+import { useTheme } from "@core/providers/ThemeProvider";
 
 type Props = TextInputProps & {
   label: string;

@@ -3,8 +3,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { View, Text, Image, Pressable, StyleSheet } from "react-native";
 import { ArrowBigLeft } from "lucide-react-native";
 import { FontAwesome } from "@expo/vector-icons";
-import { GoogleIcon } from "../../../assets/icons/index";
-import { useTheme } from "../../../core/providers/ThemeProvider";
+import { GoogleIcon } from "@assets/icons/index";
+import { useTheme } from "@core/providers/ThemeProvider";
 import { Divider, SocialButton } from "src/shared/components";
 
 export type LetyouinProps = {

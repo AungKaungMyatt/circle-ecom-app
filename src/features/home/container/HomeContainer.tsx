@@ -1,45 +1,113 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useRouter } from "expo-router";
-import HomeScreen from "../../../features/home/screens/HomeScreen";
+import HomeScreen from "@features/home/screens/HomeScreen";
+import { useShopData } from "@/features/shop/useShopData";
+
+/** Map category names to icons used by HomeScreen */
+function getIconForCategory(name?: string) {
+  const key = (name ?? "").toLowerCase();
+  if (key.includes("cloth")) return "tshirt" as const;
+  if (key.includes("shoe")) return "shoe-prints" as const;
+  if (key.includes("bag")) return "shopping-bag" as const;
+  if (key.includes("elect")) return "mobile" as const;
+  if (key.includes("watch")) return "clock" as const;
+  if (key.includes("jewel")) return "gem" as const;
+  if (key.includes("kitchen")) return "utensils" as const;
+  if (key.includes("toy")) return "puzzle-piece" as const;
+  return "shopping-bag" as const;
+}
+
+// This is the exact shape HomeScreen expects for each product item.
+type UIProduct = {
+  id: string;
+  title: string;
+  price: number;
+  rating: number;           // must be number (not undefined)
+  reviews: number;
+  image?: string;           // url string or undefined
+};
 
 export default function HomeContainer() {
   const router = useRouter();
 
-  // mock user + data (swap with API later)
-  const user = { name: "Andrew Ainsley", avatar: undefined as string | undefined };
+  // fetch categories + featured products from API
+  const { categories, featured, loading, err } = useShopData(8);
 
-  const categories = [
-    { id: "clothes", label: "Clothes", icon: "tshirt" as const },
-    { id: "shoes", label: "Shoes", icon: "shoe-prints" as const },
-    { id: "bags", label: "Bags", icon: "shopping-bag" as const },
-    { id: "electronics", label: "Electronics", icon: "mobile" as const },
-    { id: "watch", label: "Watch", icon: "clock" as const },
-    { id: "jewelry", label: "Jewelry", icon: "gem" as const },
-    { id: "kitchen", label: "Kitchen", icon: "utensils" as const },
-    { id: "toys", label: "Toys", icon: "puzzle-piece" as const },
-  ];
+  // dummy user (swap with real user data when available)
+  const user = { name: "Guest", avatar: undefined as string | undefined };
 
-  const filters = ["All", "Clothes", "Shoes", "Bags", "Electronics"];
+  // map categories for HomeScreen
+  const uiCategories = useMemo(
+    () =>
+      (categories ?? []).map((c) => ({
+        id: c.id,
+        label: c.name ?? "Unknown",
+        icon: getIconForCategory(c.name),
+      })),
+    [categories]
+  );
 
-  const products = [
-    { id: "p1", title: "Snake Leather Bag", price: 445, rating: 4.5, reviews: 1100, image: undefined },
-    { id: "p2", title: "Suga Leather Shoes", price: 375, rating: 4.7, reviews: 1280, image: undefined },
-    { id: "p3", title: "Leather Casual Suit", price: 420, rating: 4.3, reviews: 980, image: undefined },
-    { id: "p4", title: "Black Leather Bag", price: 765, rating: 4.6, reviews: 870, image: undefined },
-    { id: "p5", title: "Airtight Microphone", price: 390, rating: 4.6, reviews: 1450, image: undefined },
-    { id: "p6", title: "Black Nike Shoes", price: 560, rating: 4.8, reviews: 1780, image: undefined },
-  ];
+  // simple filters row
+  const filters = useMemo(() => {
+    const names = uiCategories.map((c) => c.label);
+    const unique = Array.from(new Set(names));
+    return ["All", ...unique.slice(0, 6)];
+  }, [uiCategories]);
 
-  const onSeeAllSpecial = () => {};
-  const onSeeAllPopular = () => {};
-  const onOpenProduct = (id: string) => router.push(`/shop/${id}`);
+  // ---- map & normalize featured products (ensure types match HomeScreen) ----
+  const uiProducts: UIProduct[] = useMemo(
+    () =>
+      (featured ?? []).map((p) => {
+        // price -> number
+        const priceNum = Number((p as any).basePrice ?? (p as any).price ?? 0);
+        const price = Number.isFinite(priceNum) ? priceNum : 0;
+
+        // rating -> number
+        const ratingNum = Number((p as any).rating ?? 0);
+        const rating = Number.isFinite(ratingNum) ? ratingNum : 4.5;
+
+        // image -> string | undefined
+        const image =
+          typeof p.images?.[0] === "string" ? (p.images![0] as string) : undefined;
+
+        return {
+          id: String(p.id ?? Math.random()),
+          title: String(p.name ?? "Unnamed Product"),
+          price,
+          rating,
+          reviews: 1000, // TODO: replace with real counts when available
+          image,
+        };
+      }),
+    [featured]
+  );
+
+  // navigation handlers
+  const onSeeAllSpecial = () => router.push("/shop/product");
+  const onSeeAllPopular = () => router.push("/shop/product");
+  const onOpenProduct = (id: string) => router.push(`/shop/product/${id}`);
+
+  // minimal loading/error fallbacks (keep props stable)
+  if (loading || err) {
+    return (
+      <HomeScreen
+        user={user}
+        categories={uiCategories}
+        filters={filters}
+        products={[]}
+        onSeeAllSpecial={onSeeAllSpecial}
+        onSeeAllPopular={onSeeAllPopular}
+        onOpenProduct={onOpenProduct}
+      />
+    );
+  }
 
   return (
     <HomeScreen
       user={user}
-      categories={categories}
+      categories={uiCategories}
       filters={filters}
-      products={products}
+      products={uiProducts}
       onSeeAllSpecial={onSeeAllSpecial}
       onSeeAllPopular={onSeeAllPopular}
       onOpenProduct={onOpenProduct}

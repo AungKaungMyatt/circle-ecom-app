@@ -1,8 +1,8 @@
 import React from "react";
 import { View, Text, Pressable } from "react-native";
-import { useTheme } from "../../core/providers/ThemeProvider";
-import { useThemeStore } from "../../core/store/useThemeStore";
-import { ThemeMode, ThemePreference } from "../../core/theme/types";
+import { useTheme } from "@core/providers/ThemeProvider";
+import { useThemeStore } from "@core/store/useThemeStore";
+import { ThemeMode, ThemePreference } from "@core/theme/types";
 
 export default function ThemeToggle() {
   const t = useTheme();

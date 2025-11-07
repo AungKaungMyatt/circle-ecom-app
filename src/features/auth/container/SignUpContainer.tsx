@@ -2,8 +2,8 @@ import React from "react";
 import { Alert } from "react-native";
 import { useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import SignUpScreen from "../../../features/auth/screens/SignUpScreen";
-import * as AuthService from "../../../features/auth/services/AuthService";
+import SignUpScreen from "@features/auth/screens/SignUpScreen";
+import * as AuthService from "@features/auth/services/AuthService";
 
 // where to land after successful sign-up
 const AFTER_AUTH_PATH = "/"; // or "/shop"

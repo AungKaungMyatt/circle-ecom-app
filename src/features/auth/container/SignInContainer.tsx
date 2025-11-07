@@ -2,10 +2,9 @@ import React from "react";
 import { Alert } from "react-native";
 import { useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import SignInScreen from "../../../features/auth/screens/SignInScreen";
-import * as AuthService from "../../../features/auth/services/AuthService";
+import SignInScreen from "@features/auth/screens/SignInScreen";
+import * as AuthService from "@features/auth/services/AuthService";
 
-// where to land after successful sign-in
 const AFTER_AUTH_PATH = "/"; // or "/shop"
 
 export default function SignInContainer() {

@@ -13,11 +13,10 @@ import {
 } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
-import { useTheme } from "../../../core/providers/ThemeProvider";
-import Button from "../../../shared/ui/Button";
-import { H1, H2, P } from "../../../shared/ui/Text";
-import DotPager from "../../components/DotPager";
-import ThemeToggle from "../../components/ThemeToggle";
+import { useTheme } from "@core/providers/ThemeProvider";
+import Button from "@shared/ui/Button";
+import { H1, H2, P } from "@shared/ui/Text";
+import { DotPager, ThemeToggle } from "../components";
 
 const { width, height } = Dimensions.get("window");
 const BUTTON_HEIGHT = 56;
@@ -210,7 +209,7 @@ export default function OnboardingScreen() {
             bottom: Math.max(16, insets.bottom + 12),
           }}
         >
-          <ThemeToggle />
+          {/* <ThemeToggle /> */}
           <Button
             title={slides[index].last ? "Get Started" : "Next"}
             onPress={goNext}

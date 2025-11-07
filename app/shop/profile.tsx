@@ -1,2 +1,2 @@
-import Profile from "../../src/features/shop/profile";
+import Profile from "@/features/shop/screens/ProfileScreen";
 export default Profile;

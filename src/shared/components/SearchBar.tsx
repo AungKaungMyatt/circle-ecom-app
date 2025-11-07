@@ -1,14 +1,18 @@
 import React from "react";
 import { View, TextInput, StyleSheet } from "react-native";
 import { Feather } from "@expo/vector-icons";
-import { useTheme } from "../../core/providers/ThemeProvider";
+import { useTheme } from "@core/providers/ThemeProvider";
 
 export default function SearchBar({
   placeholder,
   rightIcon,
+  value,
+  onChangeText,
 }: {
   placeholder: string;
   rightIcon?: React.ReactNode;
+  value?: string;
+  onChangeText?: (t: string) => void;
 }) {
   const t = useTheme();
   return (
@@ -26,6 +30,9 @@ export default function SearchBar({
         placeholder={placeholder}
         placeholderTextColor={t.colors.textSecondary + "88"}
         style={[styles.input, { color: t.colors.text }]}
+        value={value}
+        onChangeText={onChangeText}
+        returnKeyType="search"
       />
       {rightIcon}
     </View>

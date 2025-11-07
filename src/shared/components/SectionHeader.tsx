@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, Pressable } from "react-native";
-import { useTheme } from "../../core/providers/ThemeProvider";
+import { useTheme } from "@core/providers/ThemeProvider";
 
 export default function SectionHeader({ title, onSeeAll }: { title: string; onSeeAll?: () => void }) {
   const t = useTheme();

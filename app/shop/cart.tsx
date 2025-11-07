@@ -1,2 +1,2 @@
-import Cart from "../../src/features/shop/cart";
+import Cart from "@/features/shop/screens/CartScreen";
 export default Cart;
