@@ -88,7 +88,7 @@ export default function ProductDetailScreen() {
         return;
       }
       setAdding(true);
-      await api.addToWishlist(token, product!.id);
+      await api.addToWishlist(product!.id);
       Alert.alert("Added", "Product was added to your wishlist.");
     } catch (e: any) {
       Alert.alert("Error", e?.message ?? "Could not add to wishlist");
