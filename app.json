@@ -43,6 +43,7 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
+    "assetBundlePatterns": ["assets/fonts/*", "**/*"],
     "extra": {
       "eas": {
         "projectId": "fa1f5ea7-b6d2-4d2f-8c9d-46cf7f678c63"
