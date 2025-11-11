@@ -3,7 +3,7 @@ import { router } from "expo-router";
 
 const BASE_URL =
   process.env.EXPO_PUBLIC_API_BASE_URL ??
-  "https://online-shop-production-db95.up.railway.app";
+  "https://online-shop-production-3ed7.up.railway.app";
 
 let AUTH_TOKEN: string | null = null;
 export function setAuthToken(token: string | null) {

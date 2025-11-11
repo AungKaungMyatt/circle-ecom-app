@@ -10,6 +10,7 @@ type AuthState = {
   signin: (email: string, password: string) => Promise<void>;
   hydrate: () => void;
   signout: () => void;
+  setToken: (token: string) => void;
 };
 
 export const useAuth = create<AuthState>()(
@@ -34,6 +35,8 @@ export const useAuth = create<AuthState>()(
         set({ token: "" });
         setAuthToken(null);
       },
+
+      setToken: (token) => set({ token }),
     }),
     {
       name: "auth",
