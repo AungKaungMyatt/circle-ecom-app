@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 import {
   View,
   Text,
@@ -7,81 +7,78 @@ import {
   ScrollView,
   TouchableOpacity,
   Pressable,
-} from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useTheme } from "@core/providers/ThemeProvider";
-import { Search, Trash2, Minus, Plus, ArrowRight } from "lucide-react-native";
+} from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { useTheme } from '@/shared/hooks/useTheme'
+import { Search, Trash2, Minus, Plus, ArrowRight } from 'lucide-react-native'
 
 type CartItem = {
-  id: string;
-  title: string;
-  price: number;
-  qty: number;
-  attrs?: string; // e.g. "Color | Size = M"
-  image: any;
-};
+  id: string
+  title: string
+  price: number
+  qty: number
+  attrs?: string // e.g. "Color | Size = M"
+  image: any
+}
 
 // simple currency fmt (swap if you have a util)
 const money = (n: number) =>
-  `$${n.toLocaleString("en-US", {
+  `$${n.toLocaleString('en-US', {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
-  })}`;
+  })}`
 
 export default function CartScreen() {
-  const t = useTheme();
+  const { theme: t } = useTheme()
 
   const [items, setItems] = React.useState<CartItem[]>([
     {
-      id: "1",
-      title: "Werolla Cardigans",
+      id: '1',
+      title: 'Werolla Cardigans',
       price: 385,
       qty: 1,
-      attrs: "Color  •  Size = M",
+      attrs: 'Color  •  Size = M',
       image: {
-        uri: "https://images.unsplash.com/photo-1521575107034-e0fa0b594529?w=800&q=80",
+        uri: 'https://images.unsplash.com/photo-1521575107034-e0fa0b594529?w=800&q=80',
       },
     },
     {
-      id: "2",
-      title: "Suga Leather Shoes",
+      id: '2',
+      title: 'Suga Leather Shoes',
       price: 375,
       qty: 1,
-      attrs: "Color  •  Size = 40",
+      attrs: 'Color  •  Size = 40',
       image: {
-        uri: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&q=80",
+        uri: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&q=80',
       },
     },
     {
-      id: "3",
-      title: "Vinia Headphone",
+      id: '3',
+      title: 'Vinia Headphone',
       price: 360,
       qty: 1,
-      attrs: "Color",
+      attrs: 'Color',
       image: {
-        uri: "https://images.unsplash.com/photo-1518441902110-d846f5d0f765?w=800&q=80",
+        uri: 'https://images.unsplash.com/photo-1518441902110-d846f5d0f765?w=800&q=80',
       },
     },
-  ]);
+  ])
 
   const setQty = (id: string, next: number) =>
-    setItems((prev) =>
-      prev.map((it) => (it.id === id ? { ...it, qty: Math.max(1, next) } : it))
-    );
+    setItems((prev) => prev.map((it) => (it.id === id ? { ...it, qty: Math.max(1, next) } : it)))
 
   const inc = (id: string) => {
-    const it = items.find((x) => x.id === id);
-    if (it) setQty(id, it.qty + 1);
-  };
+    const it = items.find((x) => x.id === id)
+    if (it) setQty(id, it.qty + 1)
+  }
   const dec = (id: string) => {
-    const it = items.find((x) => x.id === id);
-    if (it) setQty(id, it.qty - 1);
-  };
+    const it = items.find((x) => x.id === id)
+    if (it) setQty(id, it.qty - 1)
+  }
 
-  const removeItem = (id: string) =>
-    setItems((prev) => prev.filter((x) => x.id !== id));
+  const removeItem = (id: string) => setItems((prev) => prev.filter((x) => x.id !== id))
 
-  const total = items.reduce((s, x) => s + x.price * x.qty, 0);
+  const total = items.reduce((s, x) => s + x.price * x.qty, 0)
 
   const tStyle = {
     bg: { backgroundColor: t.colors.bg },
@@ -90,7 +87,7 @@ export default function CartScreen() {
     sub: { color: t.colors.textSecondary },
     border: { borderColor: t.colors.border },
     primary: { backgroundColor: t.colors.primary, color: t.colors.onPrimary },
-  };
+  }
 
   return (
     <SafeAreaView style={[styles.safe, tStyle.bg]}>
@@ -122,22 +119,12 @@ export default function CartScreen() {
                 </Pressable>
               </View>
 
-              {item.attrs ? (
-                <Text style={[styles.attrs, tStyle.sub]}>{item.attrs}</Text>
-              ) : null}
+              {item.attrs ? <Text style={[styles.attrs, tStyle.sub]}>{item.attrs}</Text> : null}
 
               <View style={styles.bottomRow}>
-                <Text style={[styles.price, tStyle.text]}>
-                  {money(item.price)}
-                </Text>
+                <Text style={[styles.price, tStyle.text]}>{money(item.price)}</Text>
 
-                <View
-                  style={[
-                    styles.stepper,
-                    tStyle.card,
-                    { borderColor: t.colors.border },
-                  ]}
-                >
+                <View style={[styles.stepper, tStyle.card, { borderColor: t.colors.border }]}>
                   <TouchableOpacity
                     onPress={() => dec(item.id)}
                     style={styles.stepBtn}
@@ -164,9 +151,7 @@ export default function CartScreen() {
 
       {/* sticky checkout bar */}
       <View style={[styles.footerWrap, tStyle.bg]}>
-        <View
-          style={[styles.footer, tStyle.card, { borderColor: t.colors.border }]}
-        >
+        <View style={[styles.footer, tStyle.card, { borderColor: t.colors.border }]}>
           <View style={styles.totalCol}>
             <Text style={[styles.totalLabel, tStyle.sub]}>Total price</Text>
             <Text style={[styles.total, tStyle.text]}>{money(total)}</Text>
@@ -180,15 +165,13 @@ export default function CartScreen() {
               // router.push("/checkout");
             }}
           >
-            <Text style={[styles.checkoutText, { color: t.colors.bg }]}>
-              Checkout
-            </Text>
+            <Text style={[styles.checkoutText, { color: t.colors.bg }]}>Checkout</Text>
             <ArrowRight size={16} color={t.colors.bg} />
           </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -197,16 +180,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingTop: 8,
     paddingBottom: 6,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
-  headerTitle: { fontSize: 20, fontWeight: "800" },
+  headerTitle: { fontSize: 20, fontWeight: '800' },
 
   list: { paddingHorizontal: 16, paddingTop: 8, rowGap: 14 },
 
   card: {
-    flexDirection: "row",
+    flexDirection: 'row',
     borderRadius: 16,
     padding: 12,
     borderWidth: StyleSheet.hairlineWidth,
@@ -216,44 +199,44 @@ const styles = StyleSheet.create({
     height: 74,
     borderRadius: 12,
     marginRight: 12,
-    backgroundColor: "#0001",
+    backgroundColor: '#0001',
   },
 
   info: { flex: 1 },
   infoRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
 
-  title: { fontSize: 16, fontWeight: "700" },
+  title: { fontSize: 16, fontWeight: '700' },
   attrs: { marginTop: 4, fontSize: 12 },
 
   bottomRow: {
     marginTop: 10,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
 
-  price: { fontSize: 16, fontWeight: "800" },
+  price: { fontSize: 16, fontWeight: '800' },
 
   stepper: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     borderRadius: 999,
     borderWidth: StyleSheet.hairlineWidth,
     paddingHorizontal: 6,
     paddingVertical: 6,
     gap: 10,
     minWidth: 92,
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
   },
   stepBtn: { paddingHorizontal: 6, paddingVertical: 4 },
-  qty: { fontSize: 14, fontWeight: "700", minWidth: 18, textAlign: "center" },
+  qty: { fontSize: 14, fontWeight: '700', minWidth: 18, textAlign: 'center' },
 
   footerWrap: {
-    position: "absolute",
+    position: 'absolute',
     left: 0,
     right: 0,
     bottom: 0, // tab bar has safe-area padding; this sits above it
@@ -261,31 +244,31 @@ const styles = StyleSheet.create({
     paddingBottom: 12,
   },
   footer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     borderRadius: 18,
     paddingVertical: 12,
     paddingHorizontal: 14,
     borderWidth: StyleSheet.hairlineWidth,
     // subtle shadow
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOpacity: 0.06,
     shadowRadius: 12,
     shadowOffset: { width: 0, height: -2 },
     elevation: 3,
   },
   totalCol: { gap: 2 },
-  totalLabel: { fontSize: 12, fontWeight: "600" },
-  total: { fontSize: 22, fontWeight: "900" },
+  totalLabel: { fontSize: 12, fontWeight: '600' },
+  total: { fontSize: 22, fontWeight: '900' },
 
   checkoutBtn: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     gap: 8,
     borderRadius: 999,
     paddingHorizontal: 20,
     paddingVertical: 12,
   },
-  checkoutText: { fontSize: 15, fontWeight: "800" },
-});
+  checkoutText: { fontSize: 15, fontWeight: '800' },
+})

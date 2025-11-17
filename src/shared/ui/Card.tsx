@@ -1,21 +1,14 @@
-import React, { PropsWithChildren } from "react";
-import { View, StyleSheet, ViewStyle } from "react-native";
-import { useTheme } from "@core/providers/ThemeProvider";
-export default function Card({
-  children,
-  style,
-}: PropsWithChildren<{ style?: ViewStyle }>) {
-  const t = useTheme();
+import React, { PropsWithChildren } from 'react'
+import { View, StyleSheet, ViewStyle } from 'react-native'
+import { useTheme } from '@/shared/hooks/useTheme'
+export default function Card({ children, style }: PropsWithChildren<{ style?: ViewStyle }>) {
+  const { theme: t } = useTheme()
   return (
     <View
-      style={[
-        styles.card,
-        { backgroundColor: t.colors.card, borderRadius: t.radius.xl },
-        style,
-      ]}
+      style={[styles.card, { backgroundColor: t.colors.card, borderRadius: t.radius.xl }, style]}
     >
       {children}
     </View>
-  );
+  )
 }
-const styles = StyleSheet.create({ card: { padding: 20 } });
+const styles = StyleSheet.create({ card: { padding: 20 } })

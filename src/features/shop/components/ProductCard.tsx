@@ -1,19 +1,19 @@
 // src/features/shop/components/ProductCard.tsx
-import React from "react";
-import { View, Text, Image, Pressable, StyleSheet, Platform } from "react-native";
-import { Feather } from "@expo/vector-icons";
-import { useTheme } from "@core/providers/ThemeProvider";
+import React from 'react'
+import { View, Text, Image, Pressable, StyleSheet, Platform } from 'react-native'
+import { Feather } from '@expo/vector-icons'
+import { useTheme } from '@/shared/hooks/useTheme'
 
 type UIProduct = {
-  id: string;
-  title: string;
-  price?: number | string | null;
-  rating?: number | string | null;
-  reviews?: number | string | null;
-  image?: string; // url
-};
+  id: string
+  title: string
+  price?: number | string | null
+  rating?: number | string | null
+  reviews?: number | string | null
+  image?: string // url
+}
 
-type Variant = "home" | "list"; // home = compact, list = larger
+type Variant = 'home' | 'list' // home = compact, list = larger
 
 const SIZES: Record<
   Variant,
@@ -21,28 +21,28 @@ const SIZES: Record<
 > = {
   home: { imageHeight: 110, padding: 10, radius: 14, title: 13, price: 14 },
   list: { imageHeight: 160, padding: 12, radius: 16, title: 14, price: 16 },
-};
+}
 
 export default function ProductCard({
   product,
-  variant = "list",
+  variant = 'list',
   onPress,
   onWishlistPress,
 }: {
-  product: UIProduct;
-  variant?: Variant;
-  onPress?: () => void;
-  onWishlistPress?: (id: string) => void;
+  product: UIProduct
+  variant?: Variant
+  onPress?: () => void
+  onWishlistPress?: (id: string) => void
 }) {
-  const t = useTheme();
-  const v = SIZES[variant];
+  const { theme: t } = useTheme()
+  const v = SIZES[variant]
 
-  const priceNum = Number(product.price ?? 0);
-  const displayPrice = Number.isFinite(priceNum) ? priceNum.toFixed(2) : "0.00";
-  const ratingNum = Number(product.rating ?? 0);
-  const displayRating = Number.isFinite(ratingNum) ? ratingNum.toFixed(1) : "0.0";
-  const reviewsNum = Number(product.reviews ?? 0);
-  const displayReviews = Number.isFinite(reviewsNum) ? reviewsNum.toLocaleString() : "0";
+  const priceNum = Number(product.price ?? 0)
+  const displayPrice = Number.isFinite(priceNum) ? priceNum.toFixed(2) : '0.00'
+  const ratingNum = Number(product.rating ?? 0)
+  const displayRating = Number.isFinite(ratingNum) ? ratingNum.toFixed(1) : '0.0'
+  const reviewsNum = Number(product.reviews ?? 0)
+  const displayReviews = Number.isFinite(reviewsNum) ? reviewsNum.toLocaleString() : '0'
 
   return (
     <Pressable
@@ -51,10 +51,15 @@ export default function ProductCard({
         styles.card,
         { padding: v.padding, borderRadius: v.radius },
         Platform.select({
-          ios: { shadowColor: "#000", shadowOpacity: 0.08, shadowRadius: 8, shadowOffset: { width: 0, height: 4 } },
+          ios: {
+            shadowColor: '#000',
+            shadowOpacity: 0.08,
+            shadowRadius: 8,
+            shadowOffset: { width: 0, height: 4 },
+          },
           android: { elevation: 1.5 },
         }),
-        { backgroundColor: t.colors.card, borderColor: t.colors.textSecondary + "22" },
+        { backgroundColor: t.colors.card, borderColor: t.colors.textSecondary + '22' },
       ]}
     >
       <Pressable
@@ -62,7 +67,7 @@ export default function ProductCard({
         hitSlop={8}
         style={[
           styles.heart,
-          { backgroundColor: t.colors.bg, borderColor: t.colors.textSecondary + "22" },
+          { backgroundColor: t.colors.bg, borderColor: t.colors.textSecondary + '22' },
         ]}
       >
         <Feather name="heart" size={16} color={t.colors.text} />
@@ -71,7 +76,11 @@ export default function ProductCard({
       <View
         style={[
           styles.imageBox,
-          { height: v.imageHeight, backgroundColor: t.colors.bg + "80", borderRadius: v.radius - 2 },
+          {
+            height: v.imageHeight,
+            backgroundColor: t.colors.bg + '80',
+            borderRadius: v.radius - 2,
+          },
         ]}
       >
         {product.image ? (
@@ -81,45 +90,48 @@ export default function ProductCard({
         )}
       </View>
 
-      <Text numberOfLines={2} style={{ color: t.colors.text, fontWeight: "700", marginTop: 8, fontSize: v.title }}>
+      <Text
+        numberOfLines={2}
+        style={{ color: t.colors.text, fontWeight: '700', marginTop: 8, fontSize: v.title }}
+      >
         {product.title}
       </Text>
 
-      <View style={{ flexDirection: "row", alignItems: "center", gap: 6, marginTop: 4 }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 4 }}>
         <Feather name="star" size={14} color="#f5a623" />
         <Text style={{ color: t.colors.text, fontSize: 12 }}>
           {displayRating} <Text style={{ color: t.colors.textSecondary }}>({displayReviews})</Text>
         </Text>
       </View>
 
-      <Text style={{ color: t.colors.text, marginTop: 6, fontSize: v.price, fontWeight: "700" }}>
+      <Text style={{ color: t.colors.text, marginTop: 6, fontSize: v.price, fontWeight: '700' }}>
         ${displayPrice}
       </Text>
     </Pressable>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
   card: {
     borderWidth: StyleSheet.hairlineWidth,
-    position: "relative",
+    position: 'relative',
   },
   heart: {
-    position: "absolute",
+    position: 'absolute',
     top: 10,
     right: 10,
     width: 28,
     height: 28,
     borderRadius: 14,
     borderWidth: StyleSheet.hairlineWidth,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     zIndex: 2,
   },
   imageBox: {
-    overflow: "hidden",
-    alignItems: "center",
-    justifyContent: "center",
+    overflow: 'hidden',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  image: { width: "100%", height: "100%" },
-});
+  image: { width: '100%', height: '100%' },
+})

@@ -1,37 +1,35 @@
-import { useMutation } from "@tanstack/react-query";
-import { api } from "@/lib/api";
-import { useAuth } from "@/core/store/auth";
-import { queryClient } from "@/core/query/react-query";
+import { useMutation } from '@tanstack/react-query'
+import { api } from '@/lib/api'
+import AuthService from '../services/auth.service'
+import { useAuthStore } from '@/core/store/useAuthStore'
 
 export function useSignInMutation() {
-  const setToken = useAuth((s) => s.setToken);
-
+  const { login } = useAuthStore()
   return useMutation({
-    mutationFn: async (p: { email: string; password: string }) => {
-      const res = await api.signin(p.email, p.password);
-      return res; // { accessToken }
+    mutationFn: AuthService.signIn,
+    onSuccess: ({ accessToken, user }) => {
+      login(user, accessToken)
     },
-    onSuccess: ({ accessToken }) => {
-      setToken(accessToken);
-      // Invalidate user-dependent data
-      queryClient.invalidateQueries({ queryKey: ["me"] });
-      queryClient.invalidateQueries({ queryKey: ["wishlist"] });
-    },
-  });
+  })
 }
 
 export function useSignUpMutation() {
   return useMutation({
-    mutationFn: async (p: { firstName: string; lastName: string; email: string; password: string }) => {
-      return api.signup(p);
+    mutationFn: async (p: {
+      firstName: string
+      lastName: string
+      email: string
+      password: string
+    }) => {
+      return api.signup(p)
     },
-  });
+  })
 }
 
 export function useVerifyEmailMutation() {
   return useMutation({
     mutationFn: async (p: { email: string; code: string }) => {
-      return api.verifyEmail(p.email, p.code);
+      return api.verifyEmail(p.email, p.code)
     },
-  });
+  })
 }

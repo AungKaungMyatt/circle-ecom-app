@@ -1,10 +1,10 @@
-import React from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useTheme } from "@core/providers/ThemeProvider";
+import React from 'react'
+import { View, Text, StyleSheet, ScrollView } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { useTheme } from '@/shared/hooks/useTheme'
 
 export default function OrdersScreen() {
-  const t = useTheme();
+  const { theme: t } = useTheme()
 
   return (
     <SafeAreaView style={[styles.safe, { backgroundColor: t.colors.bg }]}>
@@ -15,17 +15,17 @@ export default function OrdersScreen() {
         </Text>
       </ScrollView>
     </SafeAreaView>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
   safe: { flex: 1 },
   container: {
     flexGrow: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     padding: 16,
   },
-  title: { fontSize: 22, fontWeight: "700", marginBottom: 6 },
-  subtitle: { fontSize: 15, textAlign: "center" },
-});
+  title: { fontSize: 22, fontWeight: '700', marginBottom: 6 },
+  subtitle: { fontSize: 15, textAlign: 'center' },
+})

@@ -1,20 +1,20 @@
-import React from "react";
-import { View, Text, Pressable } from "react-native";
-import { useTheme } from "@core/providers/ThemeProvider";
-import { useThemeStore } from "@core/store/useThemeStore";
-import { ThemeMode, ThemePreference } from "@core/theme/types";
+import React from 'react'
+import { View, Text, Pressable } from 'react-native'
+import { useTheme } from '@/shared/hooks/useTheme'
+import { useThemeStore } from '@core/store/useThemeStore'
+import { ThemeMode, ThemePreference } from '@core/theme/types'
 
 export default function ThemeToggle() {
-  const t = useTheme();
-  const mode = useThemeStore((s) => s.preference);
-  const setMode = useThemeStore((s) => s.setPreference);
+  const { theme: t } = useTheme()
+  const mode = useThemeStore((s) => s.preference)
+  const setMode = useThemeStore((s) => s.setPreference)
 
-  const modes: (ThemeMode | ThemePreference)[] = ["light", "dark", "system"];
+  const modes: (ThemeMode | ThemePreference)[] = ['light', 'dark', 'system']
 
   return (
     <View style={{ gap: 12, padding: 16, backgroundColor: t.colors.card }}>
-      <Text style={{ color: t.colors.text, fontWeight: "700" }}>Theme</Text>
-      <View style={{ flexDirection: "row", gap: 12 }}>
+      <Text style={{ color: t.colors.text, fontWeight: '700' }}>Theme</Text>
+      <View style={{ flexDirection: 'row', gap: 12 }}>
         {modes.map((m) => (
           <Pressable key={m} onPress={() => setMode(m)}>
             <Text
@@ -28,5 +28,5 @@ export default function ThemeToggle() {
         ))}
       </View>
     </View>
-  );
+  )
 }

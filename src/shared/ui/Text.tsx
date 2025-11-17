@@ -1,37 +1,28 @@
-import React from "react";
-import { Text as RNText, TextProps } from "react-native";
-import { useTheme } from "@core/providers/ThemeProvider";
+import React from 'react'
+import { Text as RNText, TextProps } from 'react-native'
+import { useTheme } from '@/shared/hooks/useTheme'
 
 export function H1(props: TextProps) {
-  const t = useTheme();
+  const { theme: t } = useTheme()
   return (
     <RNText
       {...props}
-      style={[
-        { fontSize: 42, fontWeight: "800", color: t.colors.text },
-        props.style,
-      ]}
+      style={[{ fontSize: 42, fontWeight: '800', color: t.colors.text }, props.style]}
     />
-  );
+  )
 }
 export function H2(props: TextProps) {
-  const t = useTheme();
+  const { theme: t } = useTheme()
   return (
     <RNText
       {...props}
-      style={[
-        { fontSize: 18, fontWeight: "700", color: t.colors.text },
-        props.style,
-      ]}
+      style={[{ fontSize: 18, fontWeight: '700', color: t.colors.text }, props.style]}
     />
-  );
+  )
 }
 export function P(props: TextProps) {
-  const t = useTheme();
+  const { theme: t } = useTheme()
   return (
-    <RNText
-      {...props}
-      style={[{ fontSize: 14, color: t.colors.textSecondary }, props.style]}
-    />
-  );
+    <RNText {...props} style={[{ fontSize: 14, color: t.colors.textSecondary }, props.style]} />
+  )
 }

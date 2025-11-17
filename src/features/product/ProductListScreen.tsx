@@ -1,21 +1,19 @@
-import React, { useMemo, useState } from "react";
-import { View, Text, FlatList, Pressable } from "react-native";
-import { useLocalSearchParams, useRouter, Stack } from "expo-router";
-import SearchBar from "@/shared/components/SearchBar";
-import ProductCard from "@/features/shop/components/ProductCard";
-import { useProductSearch } from "./useProductSearch";
-import { useTheme } from "@core/providers/ThemeProvider";
-import { Feather } from "@expo/vector-icons";
+import React, { useMemo, useState } from 'react'
+import { View, Text, FlatList, Pressable } from 'react-native'
+import { useLocalSearchParams, useRouter, Stack } from 'expo-router'
+import SearchBar from '@/shared/components/SearchBar'
+import ProductCard from '@/features/shop/components/ProductCard'
+import { useProductSearch } from './useProductSearch'
+import { useTheme } from '@/shared/hooks/useTheme'
+import { Feather } from '@expo/vector-icons'
 
 export default function ProductListScreen() {
-  const router = useRouter();
-  const t = useTheme();
-  const { categoryId } = useLocalSearchParams<{ categoryId?: string }>();
+  const router = useRouter()
+  const { theme: t } = useTheme()
+  const { categoryId } = useLocalSearchParams<{ categoryId?: string }>()
 
-  const [keyword, setKeyword] = useState("");
-  const [sortBy, setSortBy] = useState<
-    "newest" | "rating" | "price_asc" | "price_desc"
-  >("newest");
+  const [keyword, setKeyword] = useState('')
+  const [sortBy, setSortBy] = useState<'newest' | 'rating' | 'price_asc' | 'price_desc'>('newest')
 
   const params = useMemo(
     () => ({
@@ -25,10 +23,10 @@ export default function ProductListScreen() {
       page: 1,
       limit: 20,
     }),
-    [keyword, categoryId, sortBy]
-  );
+    [keyword, categoryId, sortBy],
+  )
 
-  const { items, loading } = useProductSearch(params);
+  const { items, loading } = useProductSearch(params)
 
   return (
     <View style={{ flex: 1, backgroundColor: t.colors.bg }}>
@@ -41,8 +39,8 @@ export default function ProductListScreen() {
           paddingTop: 50,
           paddingBottom: 10,
           backgroundColor: t.colors.bg,
-          flexDirection: "row",
-          alignItems: "center",
+          flexDirection: 'row',
+          alignItems: 'center',
           gap: 12,
         }}
       >
@@ -53,8 +51,8 @@ export default function ProductListScreen() {
             height: 36,
             borderRadius: 18,
             backgroundColor: t.colors.card,
-            alignItems: "center",
-            justifyContent: "center",
+            alignItems: 'center',
+            justifyContent: 'center',
           }}
         >
           <Feather name="arrow-left" size={20} color={t.colors.text} />
@@ -63,7 +61,7 @@ export default function ProductListScreen() {
         <Text
           style={{
             fontSize: 20,
-            fontWeight: "700",
+            fontWeight: '700',
             color: t.colors.text,
           }}
         >
@@ -73,25 +71,21 @@ export default function ProductListScreen() {
 
       {/* SEARCH BAR */}
       <View style={{ paddingHorizontal: 16 }}>
-        <SearchBar
-          placeholder="Search products..."
-          value={keyword}
-          onChangeText={setKeyword}
-        />
+        <SearchBar placeholder="Search products..." value={keyword} onChangeText={setKeyword} />
       </View>
 
       {/* SORT CHIPS */}
       <View
         style={{
-          flexDirection: "row",
+          flexDirection: 'row',
           gap: 10,
           paddingHorizontal: 16,
           marginTop: 14,
           marginBottom: 6,
         }}
       >
-        {["newest", "rating", "price_asc", "price_desc"].map((k) => {
-          const active = k === sortBy;
+        {['newest', 'rating', 'price_asc', 'price_desc'].map((k) => {
+          const active = k === sortBy
           return (
             <Pressable
               key={k}
@@ -101,25 +95,21 @@ export default function ProductListScreen() {
                 paddingVertical: 8,
                 borderRadius: 20,
                 borderWidth: 1,
-                backgroundColor: active
-                  ? t.colors.primary + "22"
-                  : t.colors.card,
-                borderColor: active
-                  ? t.colors.primary
-                  : t.colors.textSecondary + "33",
+                backgroundColor: active ? t.colors.primary + '22' : t.colors.card,
+                borderColor: active ? t.colors.primary : t.colors.textSecondary + '33',
               }}
             >
               <Text
                 style={{
                   color: active ? t.colors.primary : t.colors.text,
                   fontSize: 13,
-                  fontWeight: active ? "600" : "400",
+                  fontWeight: active ? '600' : '400',
                 }}
               >
-                {k.replace("_", " ")}
+                {k.replace('_', ' ')}
               </Text>
             </Pressable>
-          );
+          )
         })}
       </View>
 
@@ -129,14 +119,14 @@ export default function ProductListScreen() {
         keyExtractor={(item) => item.id}
         numColumns={2}
         columnWrapperStyle={{
-          justifyContent: "space-between",
+          justifyContent: 'space-between',
           paddingHorizontal: 16,
           marginBottom: 16,
         }}
         // contentContainerStyle={{ paddingTop: 6, paddingBottom: 50 }}
         renderItem={({ item }) => (
           <Pressable
-            style={{ width: "48%" }}
+            style={{ width: '48%' }}
             onPress={() => router.push(`/shop/product/${item.id}`)}
           >
             <ProductCard product={item} />
@@ -144,9 +134,7 @@ export default function ProductListScreen() {
         )}
       />
 
-      {loading && (
-        <Text style={{ textAlign: "center", marginTop: 20 }}>Loading…</Text>
-      )}
+      {loading && <Text style={{ textAlign: 'center', marginTop: 20 }}>Loading…</Text>}
     </View>
-  );
+  )
 }

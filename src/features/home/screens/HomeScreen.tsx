@@ -1,31 +1,24 @@
-import React from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  FlatList,
-  Pressable,
-} from "react-native";
-import { useTheme } from "@core/providers/ThemeProvider";
-import { Feather } from "@expo/vector-icons";
-import SearchBar from "@shared/components/SearchBar";
-import SectionHeader from "@shared/components/SectionHeader";
-import CategoryPill from "@/features/shop/components/CategoryPill";
-import OfferCard from "@/features/shop/components/OfferCard";
-import ProductCard from "@/features/shop/components/ProductCard";
+import React from 'react'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { View, Text, StyleSheet, ScrollView, FlatList, Pressable } from 'react-native'
+import { useTheme } from '@/shared/hooks/useTheme'
+import { Feather } from '@expo/vector-icons'
+import SearchBar from '@shared/components/SearchBar'
+import SectionHeader from '@shared/components/SectionHeader'
+import CategoryPill from '@/features/shop/components/CategoryPill'
+import OfferCard from '@/features/shop/components/OfferCard'
+import ProductCard from '@/features/shop/components/ProductCard'
 
-type User = { name: string; avatar?: string };
-type Category = { id: string; label: string; icon: any };
+type User = { name: string; avatar?: string }
+type Category = { id: string; label: string; icon: any }
 type Product = {
-  id: string;
-  title: string;
-  price: number;
-  rating: number;
-  reviews: number;
-  image?: any;
-};
+  id: string
+  title: string
+  price: number
+  rating: number
+  reviews: number
+  image?: any
+}
 
 export default function HomeScreen({
   user,
@@ -36,22 +29,19 @@ export default function HomeScreen({
   onSeeAllPopular,
   onOpenProduct,
 }: {
-  user: User;
-  categories: Category[];
-  filters: string[];
-  products: Product[];
-  onSeeAllSpecial: () => void;
-  onSeeAllPopular: () => void;
-  onOpenProduct: (id: string) => void;
+  user: User
+  categories: Category[]
+  filters: string[]
+  products: Product[]
+  onSeeAllSpecial: () => void
+  onSeeAllPopular: () => void
+  onOpenProduct: (id: string) => void
 }) {
-  const t = useTheme();
-  const [activeFilter, setActiveFilter] = React.useState(filters[0]);
+  const { theme: t } = useTheme()
+  const [activeFilter, setActiveFilter] = React.useState(filters[0])
 
   return (
-    <SafeAreaView
-      style={[styles.flex, { backgroundColor: t.colors.bg }]}
-      edges={["top"]}
-    >
+    <SafeAreaView style={[styles.flex, { backgroundColor: t.colors.bg }]} edges={['top']}>
       <ScrollView
         contentContainerStyle={{ paddingBottom: 24 }}
         showsVerticalScrollIndicator={false}
@@ -60,14 +50,12 @@ export default function HomeScreen({
         <View style={{ paddingHorizontal: 16, paddingTop: 8 }}>
           <View style={[styles.rowBetween, { marginBottom: 12 }]}>
             <View>
-              <Text style={{ color: t.colors.textSecondary, fontSize: 12 }}>
-                Good Morning 👋
-              </Text>
+              <Text style={{ color: t.colors.textSecondary, fontSize: 12 }}>Good Morning 👋</Text>
               <Text
                 style={{
                   color: t.colors.text,
                   fontSize: 18,
-                  fontWeight: "700",
+                  fontWeight: '700',
                 }}
               >
                 {user.name}
@@ -85,9 +73,7 @@ export default function HomeScreen({
 
           <SearchBar
             placeholder="Search"
-            rightIcon={
-              <Feather name="sliders" size={18} color={t.colors.text} />
-            }
+            rightIcon={<Feather name="sliders" size={18} color={t.colors.text} />}
           />
         </View>
 
@@ -98,7 +84,7 @@ export default function HomeScreen({
             title="30%"
             subtitle="Today's Special"
             description="Get discount for every order, only valid for today."
-            image={require("../assets/images/macair.png")}
+            image={require('../assets/images/macair.png')}
           />
         </View>
 
@@ -110,9 +96,7 @@ export default function HomeScreen({
             horizontal
             showsHorizontalScrollIndicator={false}
             ItemSeparatorComponent={() => <View style={{ width: 12 }} />}
-            renderItem={({ item }) => (
-              <CategoryPill label={item.label} iconName={item.icon} />
-            )}
+            renderItem={({ item }) => <CategoryPill label={item.label} iconName={item.icon} />}
           />
         </View>
 
@@ -133,20 +117,14 @@ export default function HomeScreen({
                 style={[
                   styles.chip,
                   {
-                    backgroundColor:
-                      activeFilter === item ? t.colors.text : t.colors.card,
+                    backgroundColor: activeFilter === item ? t.colors.text : t.colors.card,
                   },
                 ]}
               >
                 <Text
                   style={{
-                    color:
-                      activeFilter === item
-                        ? t.dark
-                          ? t.colors.bg
-                          : "#fff"
-                        : t.colors.text,
-                    fontWeight: "600",
+                    color: activeFilter === item ? (t.dark ? t.colors.bg : '#fff') : t.colors.text,
+                    fontWeight: '600',
                   }}
                 >
                   {item}
@@ -158,27 +136,23 @@ export default function HomeScreen({
           {/* product grid (2 columns) */}
           <View style={styles.grid}>
             {products.map((p) => (
-              <ProductCard
-                key={p.id}
-                product={p}
-                onPress={() => onOpenProduct(p.id)}
-              />
+              <ProductCard key={p.id} product={p} onPress={() => onOpenProduct(p.id)} />
             ))}
           </View>
         </View>
       </ScrollView>
     </SafeAreaView>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
   flex: { flex: 1 },
-  row: { flexDirection: "row", alignItems: "center" },
+  row: { flexDirection: 'row', alignItems: 'center' },
   rowBetween: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   chip: { paddingVertical: 8, paddingHorizontal: 14, borderRadius: 999 },
-  grid: { flexDirection: "row", flexWrap: "wrap", gap: 12 },
-});
+  grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 12 },
+})

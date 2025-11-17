@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from 'react'
 import {
   View,
   Text,
@@ -8,18 +8,18 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   Platform,
-} from "react-native";
-import { Feather } from "@expo/vector-icons";
-import { useTheme } from "@core/providers/ThemeProvider";
+} from 'react-native'
+import { Feather } from '@expo/vector-icons'
+import { useTheme } from '@/shared/hooks/useTheme'
 
 type Props = {
-  loading: boolean;
-  email: string;
-  errors?: { code?: string; root?: string };
-  onSubmit: (code: string) => void;
-  onBack: () => void;
-  onResend?: () => void;
-};
+  loading: boolean
+  email: string
+  errors?: { code?: string; root?: string }
+  onSubmit: (code: string) => void
+  onBack: () => void
+  onResend?: () => void
+}
 
 export default function VerifyEmailScreen({
   loading,
@@ -29,21 +29,21 @@ export default function VerifyEmailScreen({
   onBack,
   onResend,
 }: Props) {
-  const t = useTheme();
-  const [code, setCode] = useState("");
-  const inputRef = useRef<TextInput>(null);
+  const { theme: t } = useTheme()
+  const [code, setCode] = useState('')
+  const inputRef = useRef<TextInput>(null)
 
   useEffect(() => {
     // autofocus the code input
-    const id = setTimeout(() => inputRef.current?.focus(), 100);
-    return () => clearTimeout(id);
-  }, []);
+    const id = setTimeout(() => inputRef.current?.focus(), 100)
+    return () => clearTimeout(id)
+  }, [])
 
-  const canSubmit = code.trim().length >= 4 && !loading;
+  const canSubmit = code.trim().length >= 4 && !loading
 
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       style={[styles.wrap, { backgroundColor: t.colors.bg }]}
     >
       {/* Header */}
@@ -54,7 +54,7 @@ export default function VerifyEmailScreen({
             styles.iconBtn,
             {
               backgroundColor: t.colors.card,
-              borderColor: t.colors.textSecondary + "22",
+              borderColor: t.colors.textSecondary + '22',
             },
           ]}
         >
@@ -65,24 +65,22 @@ export default function VerifyEmailScreen({
       </View>
 
       {/* Body */}
-      <View style={{ paddingHorizontal: 16, width: "100%", gap: 8 }}>
-        <Text style={{ color: t.colors.textSecondary }}>
-          We sent a verification code to:
-        </Text>
-        <Text style={{ color: t.colors.text, fontWeight: "700", marginBottom: 8 }}>
-          {email || "your email"}
+      <View style={{ paddingHorizontal: 16, width: '100%', gap: 8 }}>
+        <Text style={{ color: t.colors.textSecondary }}>We sent a verification code to:</Text>
+        <Text style={{ color: t.colors.text, fontWeight: '700', marginBottom: 8 }}>
+          {email || 'your email'}
         </Text>
 
-        <Text style={{ color: t.colors.text, fontWeight: "600", marginBottom: 6 }}>
+        <Text style={{ color: t.colors.text, fontWeight: '600', marginBottom: 6 }}>
           Enter 4–6 digit code
         </Text>
 
         <TextInput
           ref={inputRef}
           value={code}
-          onChangeText={(v) => setCode(v.replace(/\s/g, ""))}
+          onChangeText={(v) => setCode(v.replace(/\s/g, ''))}
           placeholder="e.g. 123456"
-          placeholderTextColor={t.colors.textSecondary + "88"}
+          placeholderTextColor={t.colors.textSecondary + '88'}
           keyboardType="number-pad"
           returnKeyType="done"
           maxLength={6}
@@ -91,32 +89,26 @@ export default function VerifyEmailScreen({
             {
               color: t.colors.text,
               backgroundColor: t.colors.card,
-              borderColor: (errors?.code ? "#ff5a5a" : t.colors.textSecondary) + "33",
+              borderColor: (errors?.code ? '#ff5a5a' : t.colors.textSecondary) + '33',
             },
           ]}
           onSubmitEditing={() => canSubmit && onSubmit(code.trim())}
         />
 
         {/* inline error(s) */}
-        {!!errors?.code && (
-          <Text style={{ color: "#ff5a5a", marginTop: 4 }}>{errors.code}</Text>
-        )}
-        {!!errors?.root && (
-          <Text style={{ color: "#ff5a5a", marginTop: 4 }}>{errors.root}</Text>
-        )}
+        {!!errors?.code && <Text style={{ color: '#ff5a5a', marginTop: 4 }}>{errors.code}</Text>}
+        {!!errors?.root && <Text style={{ color: '#ff5a5a', marginTop: 4 }}>{errors.root}</Text>}
 
         {/* Resend */}
         {onResend && (
-          <Pressable style={{ alignSelf: "flex-start", marginTop: 8 }} onPress={onResend}>
-            <Text style={{ color: t.colors.primary, fontWeight: "600" }}>
-              Resend code
-            </Text>
+          <Pressable style={{ alignSelf: 'flex-start', marginTop: 8 }} onPress={onResend}>
+            <Text style={{ color: t.colors.primary, fontWeight: '600' }}>Resend code</Text>
           </Pressable>
         )}
       </View>
 
       {/* Bottom actions */}
-      <View style={{ width: "100%", paddingHorizontal: 16, marginTop: 16 }}>
+      <View style={{ width: '100%', paddingHorizontal: 16, marginTop: 16 }}>
         <Pressable
           onPress={() => onSubmit(code.trim())}
           disabled={!canSubmit}
@@ -129,12 +121,12 @@ export default function VerifyEmailScreen({
           ]}
         >
           {loading ? (
-            <ActivityIndicator color={t.colors.onPrimary ?? "#fff"} />
+            <ActivityIndicator color={t.colors.onPrimary ?? '#fff'} />
           ) : (
             <Text
               style={{
-                color: t.colors.onPrimary ?? "#fff",
-                fontWeight: "700",
+                color: t.colors.onPrimary ?? '#fff',
+                fontWeight: '700',
               }}
             >
               Verify
@@ -143,15 +135,15 @@ export default function VerifyEmailScreen({
         </Pressable>
       </View>
     </KeyboardAvoidingView>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
   wrap: { flex: 1, paddingTop: 50, gap: 16 },
   header: {
     paddingHorizontal: 16,
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     gap: 12,
   },
   iconBtn: {
@@ -159,10 +151,10 @@ const styles = StyleSheet.create({
     height: 36,
     borderRadius: 18,
     borderWidth: StyleSheet.hairlineWidth,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  title: { fontSize: 20, fontWeight: "800", flex: 1 },
+  title: { fontSize: 20, fontWeight: '800', flex: 1 },
   input: {
     height: 52,
     borderRadius: 12,
@@ -170,12 +162,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     letterSpacing: 4,
     fontSize: 18,
-    fontWeight: "700",
+    fontWeight: '700',
   },
   btn: {
     height: 50,
     borderRadius: 12,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-});
+})

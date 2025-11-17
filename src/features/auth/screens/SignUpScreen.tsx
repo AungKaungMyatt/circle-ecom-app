@@ -1,33 +1,29 @@
-import React from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { View, Text, Pressable, StyleSheet } from "react-native";
-import { ArrowBigLeft } from "lucide-react-native";
-import { useTheme } from "@core/providers/ThemeProvider";
-import FormTextInput from "@shared/components/FormTextInput";
-import Divider from "@shared/components/Divider";
-import IconButton from "@shared/components/IconButton";
-import { FontAwesome } from "@expo/vector-icons";
-import GoogleIcon from "@assets/icons/google.svg";
+import React from 'react'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { View, Text, Pressable, StyleSheet } from 'react-native'
+import { ArrowBigLeft } from 'lucide-react-native'
+import { useTheme } from '@/shared/hooks/useTheme'
+import FormTextInput from '@shared/components/FormTextInput'
+import Divider from '@shared/components/Divider'
+import IconButton from '@shared/components/IconButton'
+import { FontAwesome } from '@expo/vector-icons'
+import GoogleIcon from '@assets/icons/google.svg'
 
 export type SignUpScreenProps = {
-  onBack?: () => void;
-  onSubmit?: (payload: {
-    name: string;
-    email: string;
-    password: string;
-  }) => void;
-  onGoSignIn?: () => void;
-  onFacebook?: () => void;
-  onGoogle?: () => void;
-  onApple?: () => void;
-  loading?: boolean;
+  onBack?: () => void
+  onSubmit?: (payload: { name: string; email: string; password: string }) => void
+  onGoSignIn?: () => void
+  onFacebook?: () => void
+  onGoogle?: () => void
+  onApple?: () => void
+  loading?: boolean
   errors?: Partial<{
-    name: string;
-    email: string;
-    password: string;
-    root: string;
-  }>;
-};
+    name: string
+    email: string
+    password: string
+    root: string
+  }>
+}
 
 export default function SignUpScreen({
   onBack,
@@ -39,16 +35,13 @@ export default function SignUpScreen({
   loading,
   errors,
 }: SignUpScreenProps) {
-  const t = useTheme();
-  const [name, setName] = React.useState("");
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
+  const { theme: t } = useTheme()
+  const [name, setName] = React.useState('')
+  const [email, setEmail] = React.useState('')
+  const [password, setPassword] = React.useState('')
 
   return (
-    <SafeAreaView
-      style={{ flex: 1, backgroundColor: t.colors.bg }}
-      edges={["top"]}
-    >
+    <SafeAreaView style={{ flex: 1, backgroundColor: t.colors.bg }} edges={['top']}>
       <View style={styles.header}>
         <Pressable onPress={onBack} hitSlop={8}>
           <ArrowBigLeft size={22} color={t.colors.text} strokeWidth={2} />
@@ -56,9 +49,7 @@ export default function SignUpScreen({
       </View>
 
       <View style={{ gap: 18, paddingHorizontal: 20, marginTop: 12 }}>
-        <Text style={[styles.title, { color: t.colors.text }]}>
-          Create account
-        </Text>
+        <Text style={[styles.title, { color: t.colors.text }]}>Create account</Text>
 
         <FormTextInput
           label="Name"
@@ -89,9 +80,7 @@ export default function SignUpScreen({
           error={errors?.password}
         />
 
-        {!!errors?.root && (
-          <Text style={{ color: t.colors.danger }}>{errors.root}</Text>
-        )}
+        {!!errors?.root && <Text style={{ color: t.colors.danger }}>{errors.root}</Text>}
 
         <Pressable
           disabled={loading}
@@ -99,29 +88,25 @@ export default function SignUpScreen({
           style={[
             styles.cta,
             {
-              backgroundColor: t.dark ? t.colors.text : "#111",
+              backgroundColor: t.dark ? t.colors.text : '#111',
               opacity: loading ? 0.7 : 1,
             },
             styles.shadow,
           ]}
         >
-          <Text
-            style={[styles.ctaText, { color: t.dark ? t.colors.bg : "#fff" }]}
-          >
-            {loading ? "Creating..." : "Create account"}
+          <Text style={[styles.ctaText, { color: t.dark ? t.colors.bg : '#fff' }]}>
+            {loading ? 'Creating...' : 'Create account'}
           </Text>
         </Pressable>
 
         <View style={styles.footer}>
-          <Text style={{ color: t.colors.textSecondary }}>
-            Already have an account?{" "}
-          </Text>
+          <Text style={{ color: t.colors.textSecondary }}>Already have an account? </Text>
           <Pressable hitSlop={6} onPress={onGoSignIn}>
             <Text
               style={{
                 color: t.colors.text,
-                fontWeight: "700",
-                textDecorationLine: "underline",
+                fontWeight: '700',
+                textDecorationLine: 'underline',
               }}
             >
               Sign in
@@ -131,9 +116,7 @@ export default function SignUpScreen({
 
         <Divider label="or continue with" color={t.colors.textSecondary} />
 
-        <View
-          style={{ flexDirection: "row", justifyContent: "center", gap: 12 }}
-        >
+        <View style={{ flexDirection: 'row', justifyContent: 'center', gap: 12 }}>
           <IconButton
             size={56}
             radius={14}
@@ -158,25 +141,25 @@ export default function SignUpScreen({
         </View>
       </View>
     </SafeAreaView>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
   header: { paddingHorizontal: 20, paddingTop: 8, paddingBottom: 4 },
-  title: { fontSize: 28, fontWeight: "800" },
+  title: { fontSize: 28, fontWeight: '800' },
   cta: {
     height: 56,
     borderRadius: 999,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  ctaText: { fontSize: 16, fontWeight: "700" },
-  footer: { flexDirection: "row", alignItems: "center", marginTop: 8 },
+  ctaText: { fontSize: 16, fontWeight: '700' },
+  footer: { flexDirection: 'row', alignItems: 'center', marginTop: 8 },
   shadow: {
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOpacity: 0.2,
     shadowRadius: 8,
     shadowOffset: { width: 0, height: 4 },
     elevation: 4,
   },
-});
+})
