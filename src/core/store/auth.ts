@@ -1,8 +1,8 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { api } from "@/lib/api";
-import { getZustandStorage } from "@/core/store/mmkvStorage";
 import { setAuthToken } from "@/lib/http";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type AuthState = {
   token: string;
@@ -40,7 +40,7 @@ export const useAuth = create<AuthState>()(
     }),
     {
       name: "auth",
-      storage: createJSONStorage(() => getZustandStorage()),
+      storage: createJSONStorage(() => AsyncStorage),
       partialize: (s) => ({ token: s.token }),
       onRehydrateStorage: () => (state) => {
         // Run on app start so Axios has the token immediately

@@ -2,13 +2,12 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { ThemePreference, Theme, ThemeMode } from "../theme/types";
 import { makeTheme } from "../theme/index";
-import { getZustandStorage } from "./mmkvStorage"; // your existing wrapper
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type ThemeState = {
-  preference: ThemePreference;         // "light" | "dark" | "system"
+  preference: ThemePreference; // "light" | "dark" | "system"
   setPreference: (p: ThemePreference) => void;
   toggle: () => void;
-  // derived getter used by ThemeProvider
   getTheme: (systemMode?: ThemeMode) => Theme;
 };
 
@@ -29,7 +28,7 @@ export const useThemeStore = create<ThemeState>()(
     }),
     {
       name: "theme-pref",
-      storage: createJSONStorage(getZustandStorage),
+      storage: createJSONStorage(() => AsyncStorage),
       version: 1,
     }
   )
