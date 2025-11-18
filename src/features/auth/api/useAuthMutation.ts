@@ -2,13 +2,20 @@ import { useMutation } from '@tanstack/react-query'
 import { api } from '@/lib/api'
 import AuthService from '../services/auth.service'
 import { useAuthStore } from '@/core/store/useAuthStore'
+import { router } from 'expo-router'
+import { Alert } from 'react-native'
 
 export function useSignInMutation() {
+  const AFTER_AUTH_PATH = '/'
   const { login } = useAuthStore()
   return useMutation({
     mutationFn: AuthService.signIn,
     onSuccess: ({ accessToken, user }) => {
       login(user, accessToken)
+      router.replace(AFTER_AUTH_PATH)
+    },
+    onError(error, variables, onMutateResult, context) {
+      Alert.alert(error.message)
     },
   })
 }

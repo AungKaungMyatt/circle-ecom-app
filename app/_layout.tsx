@@ -1,8 +1,9 @@
 import { Stack } from 'expo-router'
-import { AppQueryProvider } from '@/core/query/react-query'
 import { useFonts } from 'expo-font'
 import * as SplashScreen from 'expo-splash-screen'
 import { useEffect } from 'react'
+import { QueryClientProvider } from '@tanstack/react-query'
+import { queryClient } from '@/lib/queryClient'
 
 SplashScreen.preventAutoHideAsync()
 
@@ -23,8 +24,8 @@ export default function RootLayout() {
   if (!fontsLoaded) return null
 
   return (
-    <AppQueryProvider>
+    <QueryClientProvider client={queryClient}>
       <Stack screenOptions={{ headerShown: false }} />
-    </AppQueryProvider>
+    </QueryClientProvider>
   )
 }
